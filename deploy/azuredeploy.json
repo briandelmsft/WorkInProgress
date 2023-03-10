@@ -46,11 +46,7 @@
                     "uri": "[variables('webConnectionTemplate')]",
                     "contentVersion": "1.0.0.0"
                 },
-                "parameters": {
-                    "StorageAccountPrefix": {
-                        "value": "[parameters('StorageAccountPrefix')]"
-                    }
-                }
+                "parameters": {}
             }
         },
         {

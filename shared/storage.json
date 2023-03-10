@@ -143,9 +143,9 @@
         }
     ],
     "outputs": {
-    "resourceID": {
-        "type": "string",
-        "value": "[resourceId('Microsoft.Storage/storageAccounts', variables('storageName'))]"
+        "resourceID": {
+            "type": "string",
+            "value": "[resourceId('Microsoft.Storage/storageAccounts', variables('storageName'))]"
         }
     }
 }
