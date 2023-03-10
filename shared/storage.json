@@ -146,6 +146,10 @@
         "resourceID": {
             "type": "string",
             "value": "[resourceId('Microsoft.Storage/storageAccounts', variables('storageName'))]"
+        },
+        "storageAccountName": {
+            "type": "string",
+            "value": "[variables('storageName')]"
         }
     }
 }
