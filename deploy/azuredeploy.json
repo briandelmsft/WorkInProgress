@@ -5,12 +5,77 @@
         "StorageAccountPrefix": {
             "defaultValue": "seen",
             "type": "String"
+        },
+        "ConfigPlaybookName": {
+            "defaultValue": "SEEN-Config",
+            "type": "String"
         }
     },
     "variables": {
-        "storageTemplate": "seen"
+        "storageTemplate": "https://raw.githubusercontent.com/briandelmsft/WorkInProgress/seen/shared/storage.json",
+        "webConnectionTemplate": "https://raw.githubusercontent.com/briandelmsft/WorkInProgress/seen/shared/webconnections.json",
+        "configTemplate": "https://raw.githubusercontent.com/briandelmsft/WorkInProgress/seen/shared/config.json"
     },
     "resources": [
-
+        {
+            "apiVersion": "2019-10-01",
+            "name": "StorageTemplate",
+            "type": "Microsoft.Resources/deployments",
+            "dependsOn": [],
+            "properties": {
+                "mode": "incremental",
+                "templateLink": {
+                    "uri": "[variables('storageTemplate')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "StorageAccountPrefix": {
+                        "value": "[parameters('StorageAccountPrefix')]"
+                    }
+                }
+            }
+        },
+        {
+            "apiVersion": "2019-10-01",
+            "name": "WebConnectionTemplate",
+            "type": "Microsoft.Resources/deployments",
+            "dependsOn": [],
+            "properties": {
+                "mode": "incremental",
+                "templateLink": {
+                    "uri": "[variables('webConnectionTemplate')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "StorageAccountPrefix": {
+                        "value": "[parameters('StorageAccountPrefix')]"
+                    }
+                }
+            }
+        },
+        {
+            "apiVersion": "2019-10-01",
+            "name": "ConfigTemplate",
+            "type": "Microsoft.Resources/deployments",
+            "dependsOn": [
+                "[resourceId('Microsoft.Resources/deployments', 'StorageTemplate')]",
+                "[resourceId('Microsoft.Resources/deployments', 'WebConnectionTemplate')]"
+            ],
+            "properties": {
+                "mode": "incremental",
+                "templateLink": {
+                    "uri": "[variables('configTemplate')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "PlaybookName": {
+                        "value": "[parameters('ConfigPlaybookName')]"
+                    },
+                    "BlobConnectionResourceID": {
+                        "value": "[reference('WebConnectionTemplate').outputs.BlobConnectionResourceID.value]"
+                    }
+                }
+            }
+        }
     ]
 }
