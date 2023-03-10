@@ -9,6 +9,10 @@
         "BlobConnectionResourceID": {
             "defaultValue": "/subscriptions/<subscriptionid>/resourceGroups/<rgname>/providers/Microsoft.Web/connections/azureblob",
             "type": "String"
+        },
+        "StorageAccountName": {
+            "defaultValue": "<StorageAccountName>",
+            "type": "String"
         }
     },
     "variables": {},
@@ -22,7 +26,7 @@
                 "type": "SystemAssigned"
             },
             "properties": {
-                "state": "Disabled",
+                "state": "Enabled",
                 "definition": {
                     "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
                     "contentVersion": "1.0.0.0",
@@ -103,7 +107,7 @@
                                     }
                                 },
                                 "method": "get",
-                                "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('seen'))}/files/@{encodeURIComponent(encodeURIComponent('JTJmc2VlbiUyZnNlZW4uY29uZmln'))}/content",
+                                "path": "[concat('/v2/datasets/@{encodeURIComponent(encodeURIComponent(''', parameters('StorageAccountName'), '''))}/files/@{encodeURIComponent(encodeURIComponent(''JTJmc2VlbiUyZnNlZW4uY29uZmln''))}/content')]",
                                 "queries": {
                                     "inferContentType": false
                                 }
@@ -122,7 +126,7 @@
                                     }
                                 },
                                 "method": "get",
-                                "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('seen'))}/files/@{encodeURIComponent(encodeURIComponent('JTJmc2VlbiUyZnRlbXBsYXRlcyUyZmZvb3Rlci5odG1s'))}/content",
+                                "path": "[concat('/v2/datasets/@{encodeURIComponent(encodeURIComponent(''', parameters('StorageAccountName'), '''))}/files/@{encodeURIComponent(encodeURIComponent(''JTJmc2VlbiUyZnRlbXBsYXRlcyUyZmZvb3Rlci5odG1s''))}/content')]",
                                 "queries": {
                                     "inferContentType": false
                                 }
@@ -141,7 +145,7 @@
                                     }
                                 },
                                 "method": "get",
-                                "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('seen'))}/files/@{encodeURIComponent(encodeURIComponent('JTJmc2VlbiUyZnRlbXBsYXRlcyUyZmhlYWRlci5odG1s'))}/content",
+                                "path": "[concat('/v2/datasets/@{encodeURIComponent(encodeURIComponent(''', parameters('StorageAccountName'), '''))}/files/@{encodeURIComponent(encodeURIComponent(''JTJmc2VlbiUyZnRlbXBsYXRlcyUyZmhlYWRlci5odG1s''))}/content')]",
                                 "queries": {
                                     "inferContentType": false
                                 }
@@ -194,7 +198,7 @@
                                                     }
                                                 },
                                                 "method": "get",
-                                                "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('seen'))}/files/@{encodeURIComponent(encodeURIComponent('/seen/templates/mfa.html'))}/content",
+                                                "path": "[concat('/v2/datasets/@{encodeURIComponent(encodeURIComponent(''', parameters('StorageAccountName'), '''))}/files/@{encodeURIComponent(encodeURIComponent(''/seen/templates/mfa.html''))}/content')]",
                                                 "queries": {
                                                     "inferContentType": false
                                                 }
