@@ -2,7 +2,7 @@
   "$schema": "https://schema.management.azure.com/schemas/2019-08-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "Workspace": {
+    "WorkspaceName": {
       "type": "string",
       "metadata": {
         "description": "The Microsoft Sentinel workspace into which the function will be deployed. Has to be in the selected Resource Group."
@@ -20,7 +20,7 @@
     {
       "type": "Microsoft.OperationalInsights/workspaces",
       "apiVersion": "2017-03-15-preview",
-      "name": "[parameters('Workspace')]",
+      "name": "[parameters('WorkspaceName')]",
       "location": "[parameters('WorkspaceRegion')]",
       "resources": [
         {
@@ -28,7 +28,7 @@
           "apiVersion": "2020-08-01",
           "name": "vimNetworkSession_pfSense",
           "dependsOn": [
-            "[concat('Microsoft.OperationalInsights/workspaces/', parameters('Workspace'))]"
+            "[concat('Microsoft.OperationalInsights/workspaces/', parameters('WorkspaceName'))]"
           ],
           "properties": {
             "etag": "*",
