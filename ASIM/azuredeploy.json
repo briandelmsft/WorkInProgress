@@ -18,7 +18,7 @@
   },
     "variables": {
         "CustomTemplate": "https://raw.githubusercontent.com/briandelmsft/WorkInProgress/main/ASIM/Im_NetworkSessionCustom.json",
-        "pfSenseTemplate": "https://raw.githubusercontent.com/briandelmsft/WorkInProgress/main/ASIM/vimNetworkSession_pfSense.json",
+        "pfSenseTemplate": "https://raw.githubusercontent.com/briandelmsft/WorkInProgress/main/ASIM/vimNetworkSession_pfSense.json"
     },
     "resources": [
         {
@@ -36,7 +36,7 @@
                         "value": "[parameters('WorkspaceName')]"
                     },
                     "WorkspaceRegion": {
-                        "value": "[parameters('WorkspaceName')]"
+                        "value": "[parameters('WorkspaceRegion')]"
                     }
                 }
             }
@@ -56,7 +56,7 @@
                         "value": "[parameters('WorkspaceName')]"
                     },
                     "WorkspaceRegion": {
-                        "value": "[parameters('WorkspaceName')]"
+                        "value": "[parameters('WorkspaceRegion')]"
                     }
                 }
             }
