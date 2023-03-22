@@ -1,0 +1,65 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+  "parameters": {
+    "WorkspaceName": {
+      "type": "string",
+      "metadata": {
+        "description": "The Microsoft Sentinel workspace into which the function will be deployed. Has to be in the selected Resource Group."
+      }
+    },
+    "WorkspaceRegion": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]",
+      "metadata": {
+        "description": "The region of the selected workspace. The default value will use the Region selection above."
+      }
+    }
+  },
+    "variables": {
+        "CustomTemplate": "https://raw.githubusercontent.com/briandelmsft/WorkInProgress/main/ASIM/Im_NetworkSessionCustom.json",
+        "pfSenseTemplate": "https://raw.githubusercontent.com/briandelmsft/WorkInProgress/main/ASIM/vimNetworkSession_pfSense.json",
+    },
+    "resources": [
+        {
+            "apiVersion": "2019-10-01",
+            "name": "CustomNetworkSessionTemplate",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "incremental",
+                "templateLink": {
+                    "uri": "[variables('CustomTemplate')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "WorkspaceName": {
+                        "value": "[parameters('WorkspaceName')]"
+                    },
+                    "WorkspaceRegion": {
+                        "value": "[parameters('WorkspaceName')]"
+                    }
+                }
+            }
+        },
+        {
+            "apiVersion": "2019-10-01",
+            "name": "pfSenseNetworkSessionTemplate",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "incremental",
+                "templateLink": {
+                    "uri": "[variables('pfSenseTemplate')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "WorkspaceName": {
+                        "value": "[parameters('WorkspaceName')]"
+                    },
+                    "WorkspaceRegion": {
+                        "value": "[parameters('WorkspaceName')]"
+                    }
+                }
+            }
+        }
+    ]
+}
