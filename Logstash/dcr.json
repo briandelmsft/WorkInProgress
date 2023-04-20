@@ -1,0 +1,116 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "DCR-Name": {
+            "defaultValue": "logstash-dcr",
+            "type": "String"
+        },
+        "DataCollectionEndpointResourceId": {
+            "defaultValue": "/subscriptions/<subscriptionId>/resourceGroups/<rgName>/providers/Microsoft.Insights/dataCollectionEndpoints/<dceName>",
+            "type": "String"
+        },
+        "SentinelWorkspaceResourceId": {
+            "defaultValue": "/subscriptions/<subscriptionId>/resourceGroups/<rgName>/providers/microsoft.operationalinsights/workspaces/<workspaceName>",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Insights/dataCollectionRules",
+            "apiVersion": "2022-06-01",
+            "name": "[parameters('DCR-Name')]",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "dataCollectionEndpointId": "[parameters('DataCollectionEndpointResourceId')]",
+                "streamDeclarations": {
+                    "Custom-MyTableRawData": {
+                        "columns": [
+                            {
+                                "name": "TimeGenerated",
+                                "type": "datetime"
+                            },
+                            {
+                                "name": "EventStartTime",
+                                "type": "datetime"
+                            },
+                            {
+                                "name": "EventEndTime",
+                                "type": "datetime"
+                            },
+                            {
+                                "name": "DvcIpAddr",
+                                "type": "string"
+                            },
+                            {
+                                "name": "Dvc",
+                                "type": "string"
+                            },
+                            {
+                                "name": "DstIpAddr",
+                                "type": "string"
+                            },
+                            {
+                                "name": "EventCount",
+                                "type": "int"
+                            },
+                            {
+                                "name": "EventProduct",
+                                "type": "string"
+                            },
+                            {
+                                "name": "EventType",
+                                "type": "string"
+                            },
+                            {
+                                "name": "EventVendor",
+                                "type": "string"
+                            },
+                            {
+                                "name": "EventResult",
+                                "type": "string"
+                            },
+                            {
+                                "name": "EventSchemaVersion",
+                                "type": "string"
+                            },
+                            {
+                                "name": "SrcIpAddr",
+                                "type": "string"
+                            },
+                            {
+                                "name": "SrcPortNumber",
+                                "type": "int"
+                            },
+                            {
+                                "name": "DstPortNumber",
+                                "type": "int"
+                            }
+                        ]
+                    }
+                },
+                "destinations": {
+                    "logAnalytics": [
+                        {
+                            "workspaceResourceId": "[parameters('SentinelWorkspaceResourceId')]",
+                            "name": "clv2ws1"
+                        }
+                    ]
+                },
+                "dataFlows": [
+                    {
+                        "streams": [
+                            "Custom-MyTableRawData"
+                        ],
+                        "destinations": [
+                            "clv2ws1"
+                        ],
+                        "transformKql": "source",
+                        "outputStream": "Microsoft-ASimNetworkSessionLogs"
+                    }
+                ]
+            }
+        }
+    ]
+}
