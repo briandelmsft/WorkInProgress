@@ -1,0 +1,137 @@
+{
+  "version": "Notebook/1.0",
+  "items": [
+    {
+      "type": 1,
+      "content": {
+        "json": "## Table Creation API\n---\n"
+      },
+      "name": "text - 2"
+    },
+    {
+      "type": 9,
+      "content": {
+        "version": "KqlParameterItem/1.0",
+        "crossComponentResources": [
+          "{Workspace}"
+        ],
+        "parameters": [
+          {
+            "id": "8d9a20b8-9120-463b-bcdb-7eac1081ae47",
+            "version": "KqlParameterItem/1.0",
+            "name": "Subscription",
+            "type": 6,
+            "isRequired": true,
+            "typeSettings": {
+              "additionalResourceOptions": [],
+              "includeAll": true
+            },
+            "timeContext": {
+              "durationMs": 86400000
+            },
+            "value": ""
+          },
+          {
+            "id": "1c72263a-4b11-4289-b166-923a2ccc76ad",
+            "version": "KqlParameterItem/1.0",
+            "name": "Workspace",
+            "type": 5,
+            "isRequired": true,
+            "query": "resources\r\n| where type =~ 'microsoft.operationalinsights/workspaces'",
+            "crossComponentResources": [
+              "{Subscription}"
+            ],
+            "typeSettings": {
+              "additionalResourceOptions": [],
+              "showDefault": false
+            },
+            "timeContext": {
+              "durationMs": 86400000
+            },
+            "queryType": 1,
+            "resourceType": "microsoft.resourcegraph/resources",
+            "value": ""
+          },
+          {
+            "id": "d39aedb2-7f2f-4291-8a9b-06dda64cf306",
+            "version": "KqlParameterItem/1.0",
+            "name": "Url",
+            "type": 1,
+            "isRequired": true,
+            "query": "print(strcat(\"{Workspace}\", \"/tables/CommonSecurityLogBasic_CL?api-version=2025-02-01\"))",
+            "crossComponentResources": [
+              "{Workspace}"
+            ],
+            "timeContext": {
+              "durationMs": 86400000
+            },
+            "queryType": 0,
+            "resourceType": "microsoft.operationalinsights/workspaces",
+            "value": ""
+          }
+        ],
+        "style": "pills",
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces"
+      },
+      "name": "parameters - 3"
+    },
+    {
+      "type": 9,
+      "content": {
+        "version": "KqlParameterItem/1.0",
+        "parameters": [
+          {
+            "id": "80e23d2c-b097-4dcf-8881-b5ab1a6d4d6c",
+            "version": "KqlParameterItem/1.0",
+            "name": "Body",
+            "type": 1,
+            "isRequired": true,
+            "typeSettings": {
+              "multiLineText": true,
+              "editorLanguage": "json",
+              "multiLineHeight": 40
+            },
+            "timeContext": {
+              "durationMs": 86400000
+            },
+            "value": "{\r\n  \"properties\": {\r\n    \"schema\": {\r\n      \"name\": \"CommonSecurityLogBasic_CL\",\r\n      \"columns\": [{\"name\":\"TimeGenerated\",\"type\":\"datetime\"},{\"name\":\"DeviceVendor\",\"type\":\"string\"},{\"name\":\"DeviceProduct\",\"type\":\"string\"},{\"name\":\"DeviceVersion\",\"type\":\"string\"},{\"name\":\"DeviceEventClassID\",\"type\":\"string\"},{\"name\":\"Activity\",\"type\":\"string\"},{\"name\":\"LogSeverity\",\"type\":\"string\"},{\"name\":\"OriginalLogSeverity\",\"type\":\"string\"},{\"name\":\"AdditionalExtensions\",\"type\":\"string\"},{\"name\":\"DeviceAction\",\"type\":\"string\"},{\"name\":\"ApplicationProtocol\",\"type\":\"string\"},{\"name\":\"EventCount\",\"type\":\"int\"},{\"name\":\"DestinationDnsDomain\",\"type\":\"string\"},{\"name\":\"DestinationServiceName\",\"type\":\"string\"},{\"name\":\"DestinationTranslatedAddress\",\"type\":\"string\"},{\"name\":\"DestinationTranslatedPort\",\"type\":\"int\"},{\"name\":\"CommunicationDirection\",\"type\":\"string\"},{\"name\":\"DeviceDnsDomain\",\"type\":\"string\"},{\"name\":\"DeviceExternalID\",\"type\":\"string\"},{\"name\":\"DeviceFacility\",\"type\":\"string\"},{\"name\":\"DeviceInboundInterface\",\"type\":\"string\"},{\"name\":\"DeviceNtDomain\",\"type\":\"string\"},{\"name\":\"DeviceOutboundInterface\",\"type\":\"string\"},{\"name\":\"DevicePayloadId\",\"type\":\"string\"},{\"name\":\"ProcessName\",\"type\":\"string\"},{\"name\":\"DeviceTranslatedAddress\",\"type\":\"string\"},{\"name\":\"DestinationHostName\",\"type\":\"string\"},{\"name\":\"DestinationMACAddress\",\"type\":\"string\"},{\"name\":\"DestinationNTDomain\",\"type\":\"string\"},{\"name\":\"DestinationProcessId\",\"type\":\"int\"},{\"name\":\"DestinationUserPrivileges\",\"type\":\"string\"},{\"name\":\"DestinationProcessName\",\"type\":\"string\"},{\"name\":\"DestinationPort\",\"type\":\"int\"},{\"name\":\"DestinationIP\",\"type\":\"string\"},{\"name\":\"DeviceTimeZone\",\"type\":\"string\"},{\"name\":\"DestinationUserID\",\"type\":\"string\"},{\"name\":\"DestinationUserName\",\"type\":\"string\"},{\"name\":\"DeviceAddress\",\"type\":\"string\"},{\"name\":\"DeviceName\",\"type\":\"string\"},{\"name\":\"DeviceMacAddress\",\"type\":\"string\"},{\"name\":\"ProcessID\",\"type\":\"int\"},{\"name\":\"EndTime\",\"type\":\"datetime\"},{\"name\":\"ExternalID\",\"type\":\"int\"},{\"name\":\"ExtID\",\"type\":\"string\"},{\"name\":\"FileCreateTime\",\"type\":\"string\"},{\"name\":\"FileHash\",\"type\":\"string\"},{\"name\":\"FileID\",\"type\":\"string\"},{\"name\":\"FileModificationTime\",\"type\":\"string\"},{\"name\":\"FilePath\",\"type\":\"string\"},{\"name\":\"FilePermission\",\"type\":\"string\"},{\"name\":\"FileType\",\"type\":\"string\"},{\"name\":\"FileName\",\"type\":\"string\"},{\"name\":\"FileSize\",\"type\":\"int\"},{\"name\":\"ReceivedBytes\",\"type\":\"long\"},{\"name\":\"Message\",\"type\":\"string\"},{\"name\":\"OldFileCreateTime\",\"type\":\"string\"},{\"name\":\"OldFileHash\",\"type\":\"string\"},{\"name\":\"OldFileID\",\"type\":\"string\"},{\"name\":\"OldFileModificationTime\",\"type\":\"string\"},{\"name\":\"OldFileName\",\"type\":\"string\"},{\"name\":\"OldFilePath\",\"type\":\"string\"},{\"name\":\"OldFilePermission\",\"type\":\"string\"},{\"name\":\"OldFileSize\",\"type\":\"int\"},{\"name\":\"OldFileType\",\"type\":\"string\"},{\"name\":\"SentBytes\",\"type\":\"long\"},{\"name\":\"EventOutcome\",\"type\":\"string\"},{\"name\":\"Protocol\",\"type\":\"string\"},{\"name\":\"Reason\",\"type\":\"string\"},{\"name\":\"RequestURL\",\"type\":\"string\"},{\"name\":\"RequestClientApplication\",\"type\":\"string\"},{\"name\":\"RequestContext\",\"type\":\"string\"},{\"name\":\"RequestCookies\",\"type\":\"string\"},{\"name\":\"RequestMethod\",\"type\":\"string\"},{\"name\":\"ReceiptTime\",\"type\":\"string\"},{\"name\":\"SourceHostName\",\"type\":\"string\"},{\"name\":\"SourceMACAddress\",\"type\":\"string\"},{\"name\":\"SourceNTDomain\",\"type\":\"string\"},{\"name\":\"SourceDnsDomain\",\"type\":\"string\"},{\"name\":\"SourceServiceName\",\"type\":\"string\"},{\"name\":\"SourceTranslatedAddress\",\"type\":\"string\"},{\"name\":\"SourceTranslatedPort\",\"type\":\"int\"},{\"name\":\"SourceProcessId\",\"type\":\"int\"},{\"name\":\"SourceUserPrivileges\",\"type\":\"string\"},{\"name\":\"SourceProcessName\",\"type\":\"string\"},{\"name\":\"SourcePort\",\"type\":\"int\"},{\"name\":\"SourceIP\",\"type\":\"string\"},{\"name\":\"StartTime\",\"type\":\"datetime\"},{\"name\":\"SourceUserID\",\"type\":\"string\"},{\"name\":\"SourceUserName\",\"type\":\"string\"},{\"name\":\"EventType\",\"type\":\"int\"},{\"name\":\"DeviceEventCategory\",\"type\":\"string\"},{\"name\":\"DeviceCustomIPv6Address1\",\"type\":\"string\"},{\"name\":\"DeviceCustomIPv6Address1Label\",\"type\":\"string\"},{\"name\":\"DeviceCustomIPv6Address2\",\"type\":\"string\"},{\"name\":\"DeviceCustomIPv6Address2Label\",\"type\":\"string\"},{\"name\":\"DeviceCustomIPv6Address3\",\"type\":\"string\"},{\"name\":\"DeviceCustomIPv6Address3Label\",\"type\":\"string\"},{\"name\":\"DeviceCustomIPv6Address4\",\"type\":\"string\"},{\"name\":\"DeviceCustomIPv6Address4Label\",\"type\":\"string\"},{\"name\":\"DeviceCustomFloatingPoint1\",\"type\":\"real\"},{\"name\":\"DeviceCustomFloatingPoint1Label\",\"type\":\"string\"},{\"name\":\"DeviceCustomFloatingPoint2\",\"type\":\"real\"},{\"name\":\"DeviceCustomFloatingPoint2Label\",\"type\":\"string\"},{\"name\":\"DeviceCustomFloatingPoint3\",\"type\":\"real\"},{\"name\":\"DeviceCustomFloatingPoint3Label\",\"type\":\"string\"},{\"name\":\"DeviceCustomFloatingPoint4\",\"type\":\"real\"},{\"name\":\"DeviceCustomFloatingPoint4Label\",\"type\":\"string\"},{\"name\":\"DeviceCustomNumber1\",\"type\":\"int\"},{\"name\":\"FieldDeviceCustomNumber1\",\"type\":\"long\"},{\"name\":\"DeviceCustomNumber1Label\",\"type\":\"string\"},{\"name\":\"DeviceCustomNumber2\",\"type\":\"int\"},{\"name\":\"FieldDeviceCustomNumber2\",\"type\":\"long\"},{\"name\":\"DeviceCustomNumber2Label\",\"type\":\"string\"},{\"name\":\"DeviceCustomNumber3\",\"type\":\"int\"},{\"name\":\"FieldDeviceCustomNumber3\",\"type\":\"long\"},{\"name\":\"DeviceCustomNumber3Label\",\"type\":\"string\"},{\"name\":\"DeviceCustomString1\",\"type\":\"string\"},{\"name\":\"DeviceCustomString1Label\",\"type\":\"string\"},{\"name\":\"DeviceCustomString2\",\"type\":\"string\"},{\"name\":\"DeviceCustomString2Label\",\"type\":\"string\"},{\"name\":\"DeviceCustomString3\",\"type\":\"string\"},{\"name\":\"DeviceCustomString3Label\",\"type\":\"string\"},{\"name\":\"DeviceCustomString4\",\"type\":\"string\"},{\"name\":\"DeviceCustomString4Label\",\"type\":\"string\"},{\"name\":\"DeviceCustomString5\",\"type\":\"string\"},{\"name\":\"DeviceCustomString5Label\",\"type\":\"string\"},{\"name\":\"DeviceCustomString6\",\"type\":\"string\"},{\"name\":\"DeviceCustomString6Label\",\"type\":\"string\"},{\"name\":\"DeviceCustomDate1\",\"type\":\"string\"},{\"name\":\"DeviceCustomDate1Label\",\"type\":\"string\"},{\"name\":\"DeviceCustomDate2\",\"type\":\"string\"},{\"name\":\"DeviceCustomDate2Label\",\"type\":\"string\"},{\"name\":\"FlexDate1\",\"type\":\"string\"},{\"name\":\"FlexDate1Label\",\"type\":\"string\"},{\"name\":\"FlexNumber1\",\"type\":\"int\"},{\"name\":\"FlexNumber1Label\",\"type\":\"string\"},{\"name\":\"FlexNumber2\",\"type\":\"int\"},{\"name\":\"FlexNumber2Label\",\"type\":\"string\"},{\"name\":\"FlexString1\",\"type\":\"string\"},{\"name\":\"FlexString1Label\",\"type\":\"string\"},{\"name\":\"FlexString2\",\"type\":\"string\"},{\"name\":\"FlexString2Label\",\"type\":\"string\"},{\"name\":\"RemoteIP\",\"type\":\"string\"},{\"name\":\"RemotePort\",\"type\":\"string\"},{\"name\":\"MaliciousIP\",\"type\":\"string\"},{\"name\":\"ThreatSeverity\",\"type\":\"int\"},{\"name\":\"IndicatorThreatType\",\"type\":\"string\"},{\"name\":\"ThreatDescription\",\"type\":\"string\"},{\"name\":\"ThreatConfidence\",\"type\":\"string\"},{\"name\":\"ReportReferenceLink\",\"type\":\"string\"},{\"name\":\"MaliciousIPLongitude\",\"type\":\"real\"},{\"name\":\"MaliciousIPLatitude\",\"type\":\"real\"},{\"name\":\"MaliciousIPCountry\",\"type\":\"string\"},{\"name\":\"Computer\",\"type\":\"string\"},{\"name\":\"SourceSystem\",\"type\":\"string\"},{\"name\":\"SimplifiedDeviceAction\",\"type\":\"string\"},{\"name\":\"CollectorHostName\",\"type\":\"string\"}]\r\n    },\r\n\t\"plan\": \"Basic\",\r\n\t\"totalRetentionInDays\": 365\r\n  }\r\n}\r\n\r\n"
+          }
+        ],
+        "style": "pills",
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces"
+      },
+      "name": "parameters - 1"
+    },
+    {
+      "type": 11,
+      "content": {
+        "version": "LinkItem/1.0",
+        "style": "toolbar",
+        "links": [
+          {
+            "id": "92cc79c5-8f13-423a-9ecf-b16966a4f71e",
+            "cellValue": "",
+            "linkTarget": "ArmAction",
+            "linkLabel": "Create/Update Table",
+            "style": "link",
+            "icon": "Start",
+            "linkIsContextBlade": true,
+            "armActionContext": {
+              "path": "{Url}",
+              "headers": [],
+              "params": [],
+              "body": "{Body}",
+              "httpMethod": "PUT",
+              "description": "# Actions can potentially modify resources.\n## Please use caution and include a confirmation message in this description when authoring this command."
+            }
+          }
+        ]
+      },
+      "name": "links - 3"
+    }
+  ],
+  "fromTemplateId": "sentinel-UserWorkbook",
+  "$schema": "https://github.com/Microsoft/Application-Insights-Workbooks/blob/master/schema/workbook.json"
+}
