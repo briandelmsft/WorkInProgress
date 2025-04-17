@@ -1,0 +1,183 @@
+{
+  "version": "Notebook/1.0",
+  "items": [
+    {
+      "type": 1,
+      "content": {
+        "json": "## Billable Data after Benefits\n---\n"
+      },
+      "name": "text - 2"
+    },
+    {
+      "type": 9,
+      "content": {
+        "version": "KqlParameterItem/1.0",
+        "parameters": [
+          {
+            "id": "ad716582-5ab5-48f8-aa80-5774d74393d5",
+            "version": "KqlParameterItem/1.0",
+            "name": "Subscription",
+            "type": 6,
+            "isRequired": true,
+            "typeSettings": {
+              "additionalResourceOptions": [],
+              "includeAll": true
+            },
+            "timeContext": {
+              "durationMs": 86400000
+            },
+            "value": ""
+          },
+          {
+            "id": "10716c07-ec5e-4973-9470-801fb9db669e",
+            "version": "KqlParameterItem/1.0",
+            "name": "Workspace",
+            "type": 5,
+            "isRequired": true,
+            "query": "resources\r\n| where type =~ 'microsoft.operationalinsights/workspaces'",
+            "crossComponentResources": [
+              "{Subscription}"
+            ],
+            "typeSettings": {
+              "additionalResourceOptions": [],
+              "showDefault": false
+            },
+            "timeContext": {
+              "durationMs": 86400000
+            },
+            "queryType": 1,
+            "resourceType": "microsoft.resourcegraph/resources",
+            "value": ""
+          },
+          {
+            "id": "4981fc4b-4e85-4c5c-b48e-3d0c685cb9d6",
+            "version": "KqlParameterItem/1.0",
+            "name": "TimeRange",
+            "type": 4,
+            "isRequired": true,
+            "typeSettings": {
+              "selectableValues": [
+                {
+                  "durationMs": 14400000
+                },
+                {
+                  "durationMs": 43200000
+                },
+                {
+                  "durationMs": 86400000
+                },
+                {
+                  "durationMs": 172800000
+                },
+                {
+                  "durationMs": 259200000
+                },
+                {
+                  "durationMs": 604800000
+                },
+                {
+                  "durationMs": 1209600000
+                },
+                {
+                  "durationMs": 2419200000
+                },
+                {
+                  "durationMs": 2592000000
+                },
+                {
+                  "durationMs": 5184000000
+                },
+                {
+                  "durationMs": 7776000000
+                }
+              ],
+              "allowCustom": true
+            },
+            "timeContext": {
+              "durationMs": 86400000
+            },
+            "value": {
+              "durationMs": 2592000000
+            }
+          },
+          {
+            "id": "98a817ee-416d-4b5f-bdc4-153d0f6840fe",
+            "version": "KqlParameterItem/1.0",
+            "name": "E5Seats",
+            "label": "M365 E5 Seats",
+            "type": 1,
+            "description": "Number of E5 licensed seats",
+            "isRequired": true,
+            "typeSettings": {
+              "paramValidationRules": [
+                {
+                  "regExp": "^\\d+$",
+                  "match": true,
+                  "message": "Enter a whole number"
+                }
+              ]
+            },
+            "timeContext": {
+              "durationMs": 86400000
+            },
+            "value": "50"
+          },
+          {
+            "id": "d2e33b75-2d6e-4400-a208-e35c2f75318c",
+            "version": "KqlParameterItem/1.0",
+            "name": "DfSP2",
+            "label": "Defender for Servers P2 Count",
+            "type": 1,
+            "description": "Number of servers covered by Defender for Servers P2",
+            "isRequired": true,
+            "typeSettings": {
+              "paramValidationRules": [
+                {
+                  "regExp": "^\\d+$",
+                  "match": true,
+                  "message": "Enter a whole number"
+                }
+              ]
+            },
+            "timeContext": {
+              "durationMs": 86400000
+            },
+            "value": "10"
+          }
+        ],
+        "style": "pills",
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces"
+      },
+      "name": "parameters - 2"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "let e5_benefit = ({E5Seats} * 5) / toreal(1000);\r\nlet dfsp2_benefit = ({DfSP2} * 500) / toreal(1000);\r\nlet e5_tables = dynamic(['SigninLogs','AuditLogs','AADNonInteractiveUserSignInLogs','AADServicePrincipalSignInLogs','AADManagedIdentitySignInLogs','AADProvisioningLogs','ADFSSignInLogs','McasShadowItReporting','InformationProtectionLogs_CL','DeviceEvents','DeviceFileEvents','DeviceImageLoadEvents','DeviceInfo','DeviceLogonEvents','DeviceNetworkEvents','DeviceNetworkInfo','DeviceProcessEvents','DeviceRegistryEvents','DeviceFileCertificateInfo','DynamicEventCollection','CloudAppEvents','EmailAttachmentInfo','EmailEvents','EmailPostDeliveryEvents','EmailUrlInfo','IdentityLogonEvents','IdentityQueryEvents','IdentityDirectoryEvents','AlertEvidence']);\r\nlet dfsp2_tables = dynamic(['SecurityAlert','SecurityBaseline','SecurityBaselineSummary','SecurityDetection','SecurityEvent','WindowsFirewall','ProtectionStatus','Update','UpdateSummary','MDCFileIntegrityMonitoringEvents','WindowsEvent','LinuxAuditLog']);\r\nUsage\r\n| where IsBillable\r\n| extend TableCategory = case(DataType in~ (dfsp2_tables), \"DfS-P2\", DataType in~ (e5_tables), \"M365-E5\", \"Other\")\r\n| summarize BillableDataGB=sum(Quantity) / 1000 by TableCategory, bin(TimeGenerated, 1d)\r\n| extend BillableDataAfterBenefitGB = case(TableCategory == \"M365-E5\", max_of(BillableDataGB - e5_benefit, 0), TableCategory == \"DfS-P2\", max_of(BillableDataGB - dfsp2_benefit, 0), BillableDataGB)",
+        "size": 0,
+        "timeContextFromParameter": "TimeRange",
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces",
+        "visualization": "linechart"
+      },
+      "name": "query - 2"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "let e5_benefit = ({E5Seats} * 5) / toreal(1000);\r\nlet dfsp2_benefit = ({DfSP2} * 500) / toreal(1000);\r\nlet e5_tables = dynamic(['SigninLogs','AuditLogs','AADNonInteractiveUserSignInLogs','AADServicePrincipalSignInLogs','AADManagedIdentitySignInLogs','AADProvisioningLogs','ADFSSignInLogs','McasShadowItReporting','InformationProtectionLogs_CL','DeviceEvents','DeviceFileEvents','DeviceImageLoadEvents','DeviceInfo','DeviceLogonEvents','DeviceNetworkEvents','DeviceNetworkInfo','DeviceProcessEvents','DeviceRegistryEvents','DeviceFileCertificateInfo','DynamicEventCollection','CloudAppEvents','EmailAttachmentInfo','EmailEvents','EmailPostDeliveryEvents','EmailUrlInfo','IdentityLogonEvents','IdentityQueryEvents','IdentityDirectoryEvents','AlertEvidence']);\r\nlet dfsp2_tables = dynamic(['SecurityAlert','SecurityBaseline','SecurityBaselineSummary','SecurityDetection','SecurityEvent','WindowsFirewall','ProtectionStatus','Update','UpdateSummary','MDCFileIntegrityMonitoringEvents','WindowsEvent','LinuxAuditLog']);\r\nUsage\r\n| where IsBillable\r\n| extend TableCategory = case(DataType in~ (dfsp2_tables), \"DfS-P2\", DataType in~ (e5_tables), \"M365-E5\", \"Other\")\r\n| summarize BillableDataGB=sum(Quantity) / 1000 by TableCategory, bin(TimeGenerated, 1d)\r\n| extend BillableDataAfterBenefitGB = case(TableCategory == \"M365-E5\", max_of(BillableDataGB - e5_benefit, 0), TableCategory == \"DfS-P2\", max_of(BillableDataGB - dfsp2_benefit, 0), BillableDataGB)\r\n| project-away BillableDataGB",
+        "size": 0,
+        "timeContextFromParameter": "TimeRange",
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces",
+        "visualization": "linechart"
+      },
+      "name": "query - 2 - Copy"
+    }
+  ],
+  "fromTemplateId": "sentinel-UserWorkbook",
+  "$schema": "https://github.com/Microsoft/Application-Insights-Workbooks/blob/master/schema/workbook.json"
+}
